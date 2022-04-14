@@ -1,8 +1,11 @@
-from flask import Flask, request
-import git
+"""
+Subdirectory for updating whole project.
+"""
+import os
 import hmac
 import hashlib
-import os
+import git
+from flask import Flask, request
 
 
 w_secret = os.getenv("PROJECT_UPDATE_SECRET")
@@ -27,7 +30,7 @@ app = Flask(__name__)
 @app.route("/")
 def main():
     """Main hello text from git-update sub-route"""
-    return "hello from sub app: git-updater"
+    return "This is website internal used to update source code on the server."
 
 
 @app.route("/update", methods=["POST"])
