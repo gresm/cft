@@ -35,7 +35,6 @@ def webhook():
         if not is_valid_signature(x_hub_signature, request.data, w_secret):
             return "Signature Invalid", 400
 
-        print(os.getcwd())
         repo = git.Repo(repo_location)
         origin = repo.remotes.origin
         origin.pull()
