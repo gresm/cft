@@ -1,7 +1,10 @@
-from flask import Flask
+"""Main Website"""
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
+
 @app.route('/')
-def hello_world():
-    return 'Hello from Flask!'
+def main():
+    """Main Page"""
+    return render_template("main.html")
