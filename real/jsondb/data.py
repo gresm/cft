@@ -26,6 +26,20 @@ class UsersDB:
 
         return ret
 
+    def add_user(self, identifier: str):
+        """
+        Creates new empty user with specified identifier and returns it.
+        If user with such identifier already exists, it will override it.
+        """
+        user = User(identifier=identifier, solved={}, access=set())
+        self.users[identifier] = user
+        return user
+
+    def remove_user(self, identifier: str):
+        """Removes user from database"""
+        if identifier in self.users:
+            del self.users[identifier]
+
 
 @dataclass
 class User:
@@ -55,6 +69,10 @@ class User:
             "solved": solved,
             "access": list(self.access),
         }
+
+    def extend_access(self, category: str):
+        """Extends user's access to othe categories"""
+        self.access.add(category)
 
 
 @dataclass
@@ -305,11 +323,20 @@ class Challenge:
 
     def solve(self, user: User):
         """Mark as solved for specified user"""
+        if self.category not in user.solved:
+            user.solved[self.category] = set()
         user.solved[self.category].add(self.identifier)
 
     def can_be_accesed(self, user: User):
         """Check if user can access to the challenge"""
         return self.category in user.access
+
+    def is_solved(self, user: User):
+        """Check if user has solved this challenge"""
+        if self.category not in user.solved:
+            return False
+
+        return self.identifier in user.solved[self.category]
 
 
 __all__ = ["UsersDB", "User", "ChallengesDB", "Challenges", "Challenge"]
