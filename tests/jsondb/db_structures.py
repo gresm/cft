@@ -1,5 +1,5 @@
 """Tests for real.jsondb.data"""
-from real.jsondb.data import User
+from real.jsondb.data import User, UsersDB
 
 
 class TestUser:
@@ -41,4 +41,41 @@ class TestUser:
         ), err
 
 
-__all__ = ["TestUser"]
+class TestUsersDB:
+    """Test Users class"""
+
+    serialized = {"test": {"id": "test", "solved": {}, "access": []}}
+    ser_user = {"id": "test", "solved": {}, "access": []}
+    ser_user2 = {"id": "test2", "solved": {}, "access": []}
+
+    def test_serialize(self):
+        """Test serializing"""
+        des = UsersDB.deserialize(self.serialized)
+        ser = des.serialize()
+        assert ser == self.serialized
+
+    def test_deserialize(self):
+        """Test deserializing"""
+
+        des = UsersDB.deserialize(self.serialized)
+
+        err = f"Deserialized: {des}"
+
+        assert "test" in des.users, err
+        assert des.users["test"].serialize() == self.ser_user, err
+
+    def test_add_user(self):
+        """Test adding users"""
+        des = UsersDB.deserialize(self.serialized)
+        usr1 = des.add_user("test2")
+
+        assert usr1.serialize() == self.ser_user2
+
+    def test_remove_user(self):
+        """Test removing users"""
+        des = UsersDB.deserialize(self.serialized)
+        des.remove_user("test")
+        assert len(des.users) == 0
+
+
+__all__ = ["TestUser", "TestUsersDB"]
