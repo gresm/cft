@@ -1,3 +1,15 @@
-Welocome to <b>CFT</b>!
-
-<h6 style="color: grey;">Sadly You don't have access to the website.</h6>
+{% extends "base.html" %}
+{% block head %}
+<script type="text/javascript">
+  onClickSubmit = function () {
+    document.location.href = document.location.href + `/?key=${document.getElementById("token").value}`
+  }
+</script>
+{% endblock %}
+{% block body %}
+<h6>Sadly You don't have access to the website.</h6>
+<h6>But you can login, if you have access token.</h6>
+<h6>Please enter token here:</h6>
+<input type="text" id="token" value="">
+<button type="button" id="submit" onclick="onClickSubmit();">test</button>
+{% endblock %}

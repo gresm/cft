@@ -1,7 +1,9 @@
 """This is submodule created for handling database"""
-from .load import load
-from .data import UsersDB
+from .load import load, savedb
 
 
-raw_users, raw_challenges = load()
-usersdb = UsersDB(raw_users)
+usersdb, challengesdb = load()
+
+# check validness of databases
+savedb(usersdb)  # users database is invalid
+savedb(challengesdb)  # challenges database is invalid

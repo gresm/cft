@@ -1,7 +1,10 @@
 """Database Loader (Using json)"""
-import json
+from __future__ import annotations
 
+import json
 from pathlib import Path
+
+from .data import UsersDB, ChallengesDB
 
 
 usersdb_path = Path("usersdb.json")
@@ -23,13 +26,16 @@ def load():
 
     with challengesdb_path.open("r", encoding="UTF-8") as _f:
         raw_challengesdb = json.load(_f)
-    return raw_usersdb, raw_challengesdb
+
+    return UsersDB.deserialize(raw_usersdb), ChallengesDB(raw_challengesdb)
 
 
-def savedb(users, challenges):
-    """Saves Databases to files"""
-    with usersdb_path.open("w", encoding="UTF-8") as file:
-        file.write(json.dumps(users))
+def savedb(anydb: UsersDB | ChallengesDB):
+    """Saves given database, doesn't matter if it is user or challenge"""
+    if isinstance(anydb, UsersDB):
+        with usersdb_path.open("w", encoding="UTF-8") as file:
+            file.write(json.dumps(anydb.serialize()))
 
-    with challengesdb_path.open("w", encoding="UTF-8") as file:
-        file.write(json.dumps(challenges))
+    elif isinstance(anydb, ChallengesDB):
+        with challengesdb_path.open("w", encoding="UTF-8") as file:
+            file.write(json.dumps(anydb.serialize()))
