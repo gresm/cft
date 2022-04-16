@@ -5,8 +5,6 @@ from real.jsondb.data import User, UsersDB
 class TestUser:
     """Test User class"""
 
-    __test__ = True
-
     serialized = {
         "id": "test",
         "access": ["test", "test2", "test"],
