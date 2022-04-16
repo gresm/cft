@@ -4,8 +4,8 @@ import json
 from pathlib import Path
 
 
-usersdb_path = Path("users.json")
-challengesdb_path = Path("challenges.json")
+usersdb_path = Path("usersdb.json")
+challengesdb_path = Path("challengesdb.json")
 
 
 def load():

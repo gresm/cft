@@ -1,4 +1,4 @@
-git
+GitPython
 flask
 werkzeug
-flask_talisman
+flask-talisman
