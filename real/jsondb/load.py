@@ -7,8 +7,8 @@ from pathlib import Path
 from .data import UsersDB, ChallengesDB
 
 
-usersdb_path = Path("usersdb.json")
-challengesdb_path = Path("challengesdb.json")
+usersdb_path = Path(__file__).parent / "usersdb.json"
+challengesdb_path = Path(__file__).parent / "challengesdb.json"
 
 
 def load():
