@@ -137,6 +137,14 @@ class ChallengesDB:
             return self.categories[splt[0]].get_challenge(":".join(splt[1:]))
         return None
 
+    def get_category(self, category: str) -> Challenges | None:
+        """
+        Returns category with specified name, if doesn't exist, returns None
+        """
+        if category in self.categories:
+            return self.categories[category]
+        return None
+
 
 @dataclass
 class Challenges:

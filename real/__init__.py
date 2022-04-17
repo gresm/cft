@@ -1,7 +1,9 @@
 """Main Website"""
 from flask import Flask, render_template
+from werkzeug.exceptions import Forbidden
 from config import config
 from .validate import validate, current_user
+from .jsondb import challengesdb
 
 
 app = Flask(__name__)
@@ -22,4 +24,12 @@ def main():
 @validate
 def main_category(category: str):
     """Main page for categories"""
-    return category
+    if not challengesdb.get_category(category):
+        raise Forbidden
+    if category not in current_user().access:
+        raise Forbidden
+    return render_template(
+        "category-index.html",
+        user=current_user(),
+        category=challengesdb.get_category(category),
+    )
