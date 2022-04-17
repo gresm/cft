@@ -1,2 +1,2 @@
 """Database part of tests"""
-from .db_structures import *
+from .db_user import *

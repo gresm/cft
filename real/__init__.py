@@ -28,8 +28,14 @@ def main_category(category: str):
         raise Forbidden
     if category not in current_user().access:
         raise Forbidden
+
+    challenges = set()
+
+    for solved in current_user().solved[category]:
+        name = f"{category}:{solved}"
+        challenges.update(challengesdb.get_challenge_trace(name))
+
     return render_template(
         "category-index.html",
-        user=current_user(),
-        category=challengesdb.get_category(category),
+        challanges=challenges,
     )

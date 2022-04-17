@@ -109,7 +109,7 @@ class ChallengesDB:
 
     def add_category(self, name: str):
         """Creates category and returns it"""
-        category = Challenges(self, name, {})
+        category = Challenges(identifier=name, challenges={}, data_base=self)
         self.categories[name] = category
         return category
 
@@ -131,7 +131,7 @@ class ChallengesDB:
 
     def get_challenge(self, indentifier: str) -> Challenge | None:
         """Searches for challenge from identifier"""
-        splt = indentifier.splt(":")
+        splt = indentifier.split(":")
 
         if splt[0] in self.categories:
             return self.categories[splt[0]].get_challenge(":".join(splt[1:]))
@@ -143,7 +143,7 @@ class ChallengesDB:
         """
         if category in self.categories:
             return self.categories[category]
-        return None
+        return []
 
 
 @dataclass
