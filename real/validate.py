@@ -51,3 +51,12 @@ def validate(
     if func:
         return internal_def
     return internal_set
+
+
+def current_user():
+    """
+    Get identifier of current user in request, returns None if there is no
+    """
+    if "key" in request.args and request.args["key"] in usersdb.users:
+        return request.args["key"]
+    return None
