@@ -5,9 +5,10 @@ from .validate import validate, current_user
 
 
 app = Flask(__name__)
-app.config[
-    "SERVER_NAME"
-] = f"{config['debug_server_name']}:{config['debug_server_port']}"
+if config["debug"]:
+    app.config[
+        "SERVER_NAME"
+    ] = f"{config['debug_server_name']}:{config['debug_server_port']}"
 
 
 @app.route("/")
