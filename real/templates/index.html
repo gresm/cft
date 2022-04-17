@@ -1,8 +1,34 @@
 {% extends "base.html" %}
+{% block head %}
+<script type="text/javascript">
+  function loadHrefs() {
+    function click(name){
+      host = `${name}.${document.location.host}`
+      origin = `${window.location.protocol}//${host}`
+      href = `${origin}${window.location.pathname}${window.location.search}${window.location.hash}`
+      console.log(href);
+
+      function inside(){
+        window.location.href = href;
+      }
+
+      return inside
+    }
+
+    for (let item of document.getElementsByClassName("custom-link")){
+      item.addEventListener("click", click(item.attributes.name.value))
+    }
+  }
+</script>
+{% endblock %}
+{% block battributes %}onload="loadHrefs()"{% endblock %}
 {% block body %}
 {% if user.access|length %}
+{% for access in user.access %}
 <h6>You have access to:</h6>
-<h6 href="www.example.org"></h6>
+<h6 class="custom-link" name="{{ access }}">{{ access }}</h6>
+<h6>You can click the option to go to the course</h6>
+{% endfor %}
 {% else %}
 <h6>:(</h6>
 <h6>Sorry, you don't have access to any challenge.</h6>

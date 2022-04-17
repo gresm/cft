@@ -18,8 +18,8 @@ def main():
     return render_template("index.html", user=current_user())
 
 
-@app.route("/", subdomain="test")
-# @validate
-def main_category():
+@app.route("/", subdomain="<category>")
+@validate
+def main_category(category: str):
     """Main page for categories"""
-    return "aaaa"
+    return category
