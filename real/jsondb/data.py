@@ -152,14 +152,14 @@ class ChallengesDB:
     def can_user_see(self, user, indentifier: str):
         """Check if user can see the challenge"""
         if len(indentifier.split(":")) == 1:
-            ch = self.get_category(indentifier)
+            chal = self.get_category(indentifier)
         else:
-            ch = self.get_challenge(indentifier)
+            chal = self.get_challenge(indentifier)
 
-        if ch is None:
+        if chal is None:
             return False
 
-        return ch.can_user_see(user)
+        return chal.can_user_see(user)
 
 
 @dataclass
