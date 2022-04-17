@@ -4,5 +4,6 @@
   "challengesdb": "challengesdb.json",
   "user_token_query": "key",
   "debug_server_name": "localhost",
-  "debug_server_port": "5000"
+  "debug_server_port": "5000",
+  "production_sub_domain": "cft"
 }

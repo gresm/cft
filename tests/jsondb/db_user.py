@@ -1,4 +1,4 @@
-"""Tests for real.jsondb.data"""
+"""Tests for real.jsondb.data (for users)"""
 from real.jsondb.data import User, UsersDB
 
 

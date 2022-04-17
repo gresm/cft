@@ -28,15 +28,32 @@ def load():
     with challengesdb_path.open("r", encoding="UTF-8") as _f:
         raw_challengesdb = json.load(_f)
 
-    return UsersDB.deserialize(raw_usersdb), ChallengesDB(raw_challengesdb)
+    users = UsersDB.deserialize(raw_usersdb)
+    challenges = ChallengesDB.deserialize(raw_challengesdb)
+
+    return users, challenges
 
 
 def savedb(anydb: UsersDB | ChallengesDB):
     """Saves given database, doesn't matter if it is user or challenge"""
     if isinstance(anydb, UsersDB):
+        with usersdb_path.open(encoding="UTF-8") as file:
+            content = file.read()
+
         with usersdb_path.open("w", encoding="UTF-8") as file:
-            file.write(json.dumps(anydb.serialize()))
+            try:
+                file.write(json.dumps(anydb.serialize()))
+            except Exception as exce:
+                file.write(content)
+                raise exce
 
     elif isinstance(anydb, ChallengesDB):
+        with challengesdb_path.open(encoding="UTF-8") as file:
+            content = file.read()
+
         with challengesdb_path.open("w", encoding="UTF-8") as file:
-            file.write(json.dumps(anydb.serialize()))
+            try:
+                file.write(json.dumps(anydb.serialize()))
+            except Exception as exce:
+                file.write(content)
+                raise exce

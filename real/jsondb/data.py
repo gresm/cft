@@ -90,6 +90,7 @@ class ChallengesDB:
     @classmethod
     def deserialize(cls, data):
         """Deserialize self from json-able object"""
+        print("called")
         categories = {}
         ret = cls(categories)
 
@@ -103,7 +104,7 @@ class ChallengesDB:
         ret = {}
 
         for name in self.categories:
-            ret[name] = self.categories[str].serialize()
+            ret[name] = self.categories[name].serialize()
 
         return ret
 

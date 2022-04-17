@@ -63,3 +63,48 @@ def current_user():
     if query_key in request.args:
         return usersdb.get_user(request.args[query_key])
     return None
+
+
+def fix_subdomain_route(name: str, alternative: Callable):
+    """Fix subdomain route for production"""
+
+    def internal(func):
+        """Internal"""
+
+        def internal(*args, **kwargs):
+            """Internal of internal"""
+            if config["debug"]:
+                return func(*args, **kwargs)
+
+            if name in kwargs:
+                val = kwargs[name]
+                kwa = True
+            else:
+                kwa = False
+                val = args[0]
+
+            prod_splt = config["production_sub_domain"].split(".")
+            splt = val.split(".")
+            fix = ".".join(splt[: -len(prod_splt)])
+
+            if not fix:
+                if kwa:
+                    del kwargs[name]
+                else:
+                    args = args[1:]
+
+                return alternative(*args, **kwargs)
+
+            if kwa:
+                kwargs[name] = fix
+            else:
+                args = (fix, *args[1:])
+
+            return func(*args, **kwargs)
+
+        if getattr(func, "__doc__", None):
+            internal.__doc__ = func.__doc__
+
+        return internal
+
+    return internal

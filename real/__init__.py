@@ -2,7 +2,7 @@
 from flask import Flask, render_template
 from werkzeug.exceptions import Forbidden
 from config import config
-from .validate import validate, current_user
+from .validate import validate, current_user, fix_subdomain_route
 from .jsondb import challengesdb
 
 
@@ -21,6 +21,7 @@ def main():
 
 
 @app.route("/", subdomain="<category>")
+@fix_subdomain_route("category", main)
 @validate
 def main_category(category: str):
     """Main page for categories"""
@@ -31,11 +32,11 @@ def main_category(category: str):
 
     challenges = set()
 
-    for solved in current_user().solved[category]:
-        name = f"{category}:{solved}"
-        challenges.update(challengesdb.get_challenge_trace(name))
+    # for solved in current_user().access[category]:
+    #     name = f"{category}:{solved}"
+    #     challenges.update(challengesdb.get_challenge_trace(name))
 
     return render_template(
         "category-index.html",
-        challanges=challenges,
+        challenges=challenges,
     )
