@@ -134,6 +134,9 @@ class ChallengesDB:
         """Searches for challenge from identifier"""
         splt = indentifier.split(":")
 
+        if len(splt) == 1:
+            return None
+
         if splt[0] in self.categories:
             return self.categories[splt[0]].get_challenge(":".join(splt[1:]))
         return None
@@ -145,6 +148,18 @@ class ChallengesDB:
         if category in self.categories:
             return self.categories[category]
         return []
+
+    def can_user_see(self, user, indentifier: str):
+        """Check if user can see the challenge"""
+        if len(indentifier.split(":")) == 1:
+            ch = self.get_category(indentifier)
+        else:
+            ch = self.get_challenge(indentifier)
+
+        if ch is None:
+            return False
+
+        return ch.can_user_see(user)
 
 
 @dataclass
@@ -237,6 +252,17 @@ class Challenges:
 
         self.challenges[name] = ret
         return ret
+
+    def can_user_see(self, user: User):
+        """Check if category is accessible for user"""
+        splt = self.identifier.split(":")
+
+        if splt[0] not in user.access:
+            return False
+
+        if len(splt) == 1:
+            return True
+        return ":".join(splt[1:-1]) in user.solved[splt[0]]
 
 
 @dataclass
@@ -352,6 +378,10 @@ class Challenge:
             return False
 
         return self.identifier in user.solved[self.category]
+
+    def can_user_see(self, user: User):
+        """Check if user can see the challenge"""
+        return self.parent.can_user_see(user)
 
 
 __all__ = ["UsersDB", "User", "ChallengesDB", "Challenges", "Challenge"]
