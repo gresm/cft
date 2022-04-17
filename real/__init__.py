@@ -2,7 +2,7 @@
 from flask import Flask, render_template
 from werkzeug.exceptions import Forbidden
 from config import config
-from .validate import validate, current_user, fix_subdomain_route
+from .validate import validate, current_user
 from .jsondb import challengesdb
 
 
@@ -20,8 +20,7 @@ def main():
     return render_template("index.html", user=current_user())
 
 
-@app.route("/", subdomain="<category>")
-@fix_subdomain_route("category", main)
+@app.route("/<category>")
 @validate
 def main_category(category: str):
     """Main page for categories"""

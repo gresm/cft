@@ -3,9 +3,9 @@
 <script type="text/javascript">
   function loadHrefs() {
     function click(name){
-      host = `${name}.${document.location.host}`
+      host = document.location.host
       origin = `${window.location.protocol}//${host}`
-      href = `${origin}${window.location.pathname}${window.location.search}${window.location.hash}`
+      href = `${origin}${window.location.pathname}${name}${window.location.search}${window.location.hash}`
       console.log(href);
 
       function inside(){
