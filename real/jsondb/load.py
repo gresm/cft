@@ -4,11 +4,12 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from config import config
 from .data import UsersDB, ChallengesDB
 
 
-usersdb_path = Path(__file__).parent / "usersdb.json"
-challengesdb_path = Path(__file__).parent / "challengesdb.json"
+usersdb_path = Path(__file__).parent / config["usersdb"]
+challengesdb_path = Path(__file__).parent / config["challengesdb"]
 
 
 def load():

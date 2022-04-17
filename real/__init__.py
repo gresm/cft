@@ -1,21 +1,24 @@
 """Main Website"""
 from flask import Flask, render_template
-from .validate import validate
-from .jsondb import usersdb
+from config import config
+from .validate import validate, current_user
 
 
 app = Flask(__name__)
+app.config[
+    "SERVER_NAME"
+] = f"{config['debug_server_name']}:{config['debug_server_port']}"
 
 
 @app.route("/")
 @validate(missing_template="index-missing.html")
 def main():
     """Main page"""
-    return render_template("index.html")
+    return render_template("index.html", user=current_user())
 
 
-@app.route("/", subdomain="<category>")
-@validate
-def main_category(category: str):
+@app.route("/", subdomain="test")
+# @validate
+def main_category():
     """Main page for categories"""
-    return category
+    return "aaaa"

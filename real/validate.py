@@ -3,6 +3,8 @@ from __future__ import annotations
 from typing import Callable
 from flask import request, render_template
 
+from config import config
+
 try:
     from .jsondb import usersdb
 except ImportError:
@@ -11,6 +13,7 @@ except ImportError:
 
 INVALID_TOKEN = "invalid-token.html"
 MISSING_TOKEN = "missing-token.html"
+query_key = config["user_token_query"]
 
 
 def validate(
@@ -27,7 +30,7 @@ def validate(
     def internal_def(*args, **kwargs):
         """Internal function"""
         if "key" in request.args:
-            if request.args["key"] in usersdb.users:
+            if request.args[query_key] in usersdb.users:
                 return func(*args, **kwargs)
             return render_template(INVALID_TOKEN), 404
         return render_template(MISSING_TOKEN), 403
@@ -41,7 +44,7 @@ def validate(
         def nested(*args, **kwargs):
             """Nested internal function"""
             if "key" in request.args:
-                if request.args["key"] in usersdb.users:
+                if request.args[query_key] in usersdb.users:
                     return func(*args, **kwargs)
                 return render_template(invalid), 404
             return render_template(missing), 403
@@ -57,6 +60,6 @@ def current_user():
     """
     Get identifier of current user in request, returns None if there is no
     """
-    if "key" in request.args and request.args["key"] in usersdb.users:
-        return request.args["key"]
+    if query_key in request.args:
+        return usersdb.get_user(request.args[query_key])
     return None

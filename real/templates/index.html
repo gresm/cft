@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block body %}
-{% if len(user.access) %}
+{% if user.access|length %}
 <h6>You have access to:</h6>
 <h6 href="www.example.org"></h6>
 {% else %}
+<h6>:(</h6>
 <h6>Sorry, you don't have access to any challenge.</h6>
 {% endif %}
-
 {% endblock %}

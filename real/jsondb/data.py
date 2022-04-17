@@ -40,6 +40,12 @@ class UsersDB:
         if identifier in self.users:
             del self.users[identifier]
 
+    def get_user(self, identifier: str):
+        """Returns user with identifier, if no, returns None"""
+        if identifier in self.users:
+            return self.users[identifier]
+        return None
+
 
 @dataclass
 class User:

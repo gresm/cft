@@ -1,0 +1,8 @@
+{
+  "debug": true,
+  "usersdb": "usersdb.json",
+  "challengesdb": "challengesdb.json",
+  "user_token_query": "key",
+  "debug_server_name": "localhost",
+  "debug_server_port": "5000"
+}
