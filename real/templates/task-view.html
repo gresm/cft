@@ -2,35 +2,28 @@
 {% block head %}
 <script type="text/javascript">
   function submit() {
-    splt = window.location.search.slice(1).split("&")
-    search = {}
-
-    for (ind in splt) {
-      console.log(ind)
-      v = splt[ind].split("=")
-      search[v[0]] = v[1]
-    }
-
+    search = getArgs()
     search["action"] = "submit"
     search["flag"] = document.getElementById('submit-task').value
+    document.location.search = parseArgs(search)
+  }
 
-    text = ""
-    for (key in search) {
-      text += `${key}=${search[key]}&`
-    }
-    text = text.slice(0, -1)
-
-    document.location.search = text
+  function view() {
+    search = getArgs()
+    search["action"] = "list"
+    text = parseArgs(search)
+    document.location.href = `${document.location.origin}/{{ task.identifier }}${text}${document.location.hash}`
   }
 </script>
 {% endblock %}
 {% block body %}
-<br>
+<br><div>
 <b>{{ task.title }}</b>
 <h6>{{ task.description }}</h6>
 {% if task.is_solved(user) %}
 <h6 class="good">This challenge was solved and the flag was:</h6>
-<h6 class="good">{{ task.flag }}</h6>
+<h6 class="good">{{ task.flag }}</h6><br>
+<button type="button" onclick="view()">Go to sub-challenges</button>
 {% else %}
 <p> Flag:</p>
 <input type="text" id="submit-task"> <button type="button" onclick="submit()">check</button>

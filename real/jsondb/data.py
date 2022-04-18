@@ -60,7 +60,7 @@ class User:
         """Deserialize self from json-able object"""
         solved = {}
         for name in data["solved"]:
-            solved[name] = list(data["solved"][name])
+            solved[name] = set(data["solved"][name])
 
         return cls(data["id"], solved, set(data["access"]))
 
@@ -376,7 +376,16 @@ class Challenge:
 
     def can_user_see(self, user: User):
         """Check if user can see the challenge"""
-        return self.parent.can_user_see(user)
+        return self.get_parent_challenge().is_solved(user)
+
+    def get_parent_challenge(self) -> Challenge | None:
+        """Get parent challenge"""
+        splt = self.identifier.split(":")
+
+        if len(splt) == 0:
+            return None
+
+        return self.parent.data_base.get_challenge(":".join(splt[:-1]))
 
 
 __all__ = ["UsersDB", "User", "ChallengesDB", "Challenges", "Challenge"]

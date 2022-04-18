@@ -11,6 +11,31 @@
         color: lightgreen;
       }
     </style>
+    <script type="text/javascript">
+    function getArgs() {
+      splt = window.location.search.slice(1).split("&")
+      search = {}
+
+      for (ind in splt) {
+        console.log(ind)
+        v = splt[ind].split("=")
+        search[v[0]] = v[1]
+      }
+      return search
+    }
+
+    function parseArgs(search) {
+      text = "?"
+
+      for (key in search) {
+        text += `${key}=${search[key]}&`
+      }
+
+      text = text.slice(0, -1)
+
+      return text
+    }
+    </script>
     {% block head %}
     {% endblock %}
   </head>

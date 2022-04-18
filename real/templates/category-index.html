@@ -1,16 +1,33 @@
 {% extends "base.html" %}
+{% block head %}
+<script type="text/javascript">
+  function buttonClick(ident) {
+    search = getArgs()
+    search["action"] = "view"
+    document.location.href = `${document.location.origin}/${ident}${parseArgs(search)}${document.location.hash}`
+  }
+
+  function view(ident) {
+    search = getArgs()
+    search["action"] = "list"
+    text = parseArgs(search)
+    document.location.href = `${document.location.origin}/${ident}${text}${document.location.hash}`
+  }
+</script>
+{% endblock %}
 {% block body %}
 <br>
-{% for chal in challenges %}
+{% for task in challenges %}
 <br>
-<div id="div-{{ chal.identifier }}">
-<b>{{ chal.title }}</b>
-<h6>{{ chal.description }}</h6>
-{% if chal.is_solved(user) %}
+<div id="div-{{ task.identifier }}">
+<b>{{ task.title }}</b>
+<h6>{{ task.description }}</h6>
+{% if task.is_solved(user) %}
 <h6 class="good">This challenge was solved and the flag was:</h6>
-<h6 class="good">{{ chal.flag }}</h6>
+<h6 class="good">{{ task.flag }}</h6>
+<button type="button" onclick="view('{{ task.identifier }}')">Go to sub-challenges</button>
 {% else %}
-<button type="button" name="button" onclick="document.location.href = document.location.origin + '/{{ chal.identifier }}' + document.location.search + '&action=view'">Try it</button>
+<button type="button" name="button" onclick="buttonClick('{{ task.identifier }}')">Try it</button>
 </div>
 {% endif %}
 {% endfor %}
