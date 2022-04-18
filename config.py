@@ -15,7 +15,7 @@ if "CFT_CUSTOM_DATABASE_USERS" in os.environ:
     config["usersdb"] = os.environ["CFT_CUSTOM_DATABASE_USERS"]
 
 if "CFT_CUSTOM_DATABASE_CHALLENGES" in os.environ:
-    config["usersdb"] = os.environ["CFT_CUSTOM_DATABASE_CHALLENGES"]
+    config["challengesdb"] = os.environ["CFT_CUSTOM_DATABASE_CHALLENGES"]
 
 for __key in config:
     locals()[__key] = config[__key]
