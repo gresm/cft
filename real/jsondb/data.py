@@ -90,7 +90,6 @@ class ChallengesDB:
     @classmethod
     def deserialize(cls, data):
         """Deserialize self from json-able object"""
-        print("called")
         categories = {}
         ret = cls(categories)
 
@@ -367,10 +366,6 @@ class Challenge:
         if self.category not in user.solved:
             user.solved[self.category] = set()
         user.solved[self.category].add(self.identifier)
-
-    def can_be_accesed(self, user: User):
-        """Check if user can access to the challenge"""
-        return self.category in user.access
 
     def is_solved(self, user: User):
         """Check if user has solved this challenge"""

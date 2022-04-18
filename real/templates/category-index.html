@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 {% block body %}
+<br>
 {% for chal in challenges %}
-<h5>{{ chal }}</h5>
+<br>
+<div id="div-{{ chal.identifier }}">
+<b>{{ chal.title }}</b>
+<h6>{{ chal.description }}</h6>
+{% if chal.is_solved(user) %}
+<h6 class="good">This challenge was solved and the flag was:</h6>
+<h6 class="good">{{ chal.flag }}</h6>
+{% else %}
+<button type="button" name="button" onclick="document.location.href = document.location.origin + '/{{ chal.identifier }}' + document.location.search + '&action=view'">Try it</button>
+</div>
+{% endif %}
 {% endfor %}
 {% endblock %}

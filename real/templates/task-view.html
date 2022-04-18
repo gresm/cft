@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block head %}
+<script type="text/javascript">
+  function submit() {
+    splt = window.location.search.slice(1).split("&")
+    search = {}
+
+    for (ind in splt) {
+      console.log(ind)
+      v = splt[ind].split("=")
+      search[v[0]] = v[1]
+    }
+
+    search["action"] = "submit"
+    search["flag"] = document.getElementById('submit-task').value
+
+    text = ""
+    for (key in search) {
+      text += `${key}=${search[key]}&`
+    }
+    text = text.slice(0, -1)
+
+    document.location.search = text
+  }
+</script>
+{% endblock %}
+{% block body %}
+<br>
+<b>{{ task.title }}</b>
+<h6>{{ task.description }}</h6>
+{% if task.is_solved(user) %}
+<h6 class="good">This challenge was solved and the flag was:</h6>
+<h6 class="good">{{ task.flag }}</h6>
+{% else %}
+<p> Flag:</p>
+<input type="text" id="submit-task"> <button type="button" onclick="submit()">check</button>
+</div>
+{% endif %}
+{% endblock %}
