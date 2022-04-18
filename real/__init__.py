@@ -45,6 +45,9 @@ def render_task(path: str):
     if not task:
         raise NotFound
 
+    if not task.can_user_see(current_user()):
+        raise Forbidden
+
     return render_template("task-view.html", task=task, user=current_user())
 
 
