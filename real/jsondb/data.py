@@ -376,7 +376,10 @@ class Challenge:
 
     def can_user_see(self, user: User):
         """Check if user can see the challenge"""
-        return self.get_parent_challenge().is_solved(user)
+        parent = self.get_parent_challenge()
+        if parent:
+            return self.get_parent_challenge().is_solved(user)
+        return self.parent.can_user_see(user)
 
     def get_parent_challenge(self) -> Challenge | None:
         """Get parent challenge"""
